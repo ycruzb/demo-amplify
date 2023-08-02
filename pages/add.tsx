@@ -45,7 +45,7 @@ const Page: NextPageWithLayout = () => {
   return (
     <>
       <h1 className='font-bold text-xl mb-1'>Add new page</h1>
-      <p className='text-gray-400 italic mb-8'>just simulating that a new page was crawled and showing how to use the query ;)</p>
+      <p className='text-gray-400 italic mb-8'>just simulating that a new page was crawled and showing how to use the mutation ;)</p>
       {error && <p className='text-red-600 mb-4'>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className='w-full mb-4'>
