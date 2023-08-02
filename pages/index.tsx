@@ -6,12 +6,12 @@ import { listPages, pagesByCategory } from '@/graphql/queries';
 import { Page } from '@/API';
  
 const Page: NextPageWithLayout = () => {
-  const [url, setUrl] = useState<string | false>(false);
   const [sending, setSending] = useState<boolean>(false);
   const [pages, setPages] = useState<false | Array<Page>>(false);
   const startDateRef = useRef<HTMLInputElement>(null);
   const endDateRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLInputElement>(null);
+  const urlRef = useRef<HTMLInputElement>(null);
 
   async function fetchData() {
     setSending(true);
@@ -52,7 +52,7 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
-  async function handleDateFilterCategory(e: React.FormEvent<HTMLFormElement>) {
+  async function handleFilterCategory(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       setSending(true);
@@ -73,6 +73,27 @@ const Page: NextPageWithLayout = () => {
     }
   }
 
+  async function handleFilterURL(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      setSending(true);
+      const url = urlRef.current?.value ?? '';
+      const res = await API.graphql({ query: listPages, variables: { url } })
+      setPages(res.data.listPages.items as Array<Page> ?? []);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSending(false);
+    }
+  }
+
+  async function handleClearFilterURL() {
+    if (urlRef.current?.value) {
+      urlRef.current!.value = '';
+      fetchData();
+    }
+  }
+
   return (
     <>
       {sending && <>
@@ -84,6 +105,13 @@ const Page: NextPageWithLayout = () => {
       </>}
       <div className='text-sm italic text-gray-500 mb-4'>* The filters work independently</div>
       <div className='mb-5'>
+        <form onSubmit={handleFilterURL} className='flex gap-x-4'>
+          <div>URL: <input ref={urlRef} className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='string' required={true} /></div>
+          <button type='submit' className='bg-teal-700 text-white text-sm px-4 py-1 rounded-2xl'>Filter</button>
+          {(urlRef.current?.value) && <button type='button' onClick={handleClearFilterURL} className='bg-gray-700 text-white text-sm px-4 py-1 rounded-2xl'>Clear</button>}
+        </form>
+      </div>
+      <div className='mb-5'>
         <form onSubmit={handleDateFilterDateRange} className='flex gap-x-4'>
           <div>Start: <input ref={startDateRef} className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='date' required={true} /></div>
           <div>End: <input ref={endDateRef} className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='date' required={true} /></div>
@@ -92,7 +120,7 @@ const Page: NextPageWithLayout = () => {
         </form>
       </div>
       <div className='mb-5'>
-        <form onSubmit={handleDateFilterCategory} className='flex gap-x-4'>
+        <form onSubmit={handleFilterCategory} className='flex gap-x-4'>
           <div>Category: <input ref={categoryRef} className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='string' required={true} /></div>
           <button type='submit' className='bg-teal-700 text-white text-sm px-4 py-1 rounded-2xl'>Filter</button>
           {(categoryRef.current?.value) && <button type='button' onClick={handleClearFilterCategory} className='bg-gray-700 text-white text-sm px-4 py-1 rounded-2xl'>Clear</button>}
