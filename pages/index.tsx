@@ -140,9 +140,9 @@ const Page: NextPageWithLayout = () => {
                 <span className='text-xs bg-teal-700 text-white px-2 py-[1px] rounded-full mr-2'>{page.wordCount} words</span>
               </div>
               <div className='flex justify-between'>
-                <div className='text-gray-500'>{page.url}</div>
-                <div className='text-gray-500'>{date}</div>
-                <div className='text-gray-500'>{page.category}</div>
+                <div className='text-gray-500 w-full'>{page.url}</div>
+                <div className='text-gray-500 w-full text-center'>{date}</div>
+                <div className='text-gray-500 w-full text-right'>{page.category}</div>
               </div>
             </div>
           )})}
