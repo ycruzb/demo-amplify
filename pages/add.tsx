@@ -106,7 +106,7 @@ const Page: NextPageWithLayout = () => {
         </div>
         <div className='w-full mb-4'>
           <label className='block text-gray-700 text-sm font-bold mb-1' htmlFor='title'>
-            Crawled date (ISO 8601 date)
+            Crawled date
           </label>
           <input
             className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
