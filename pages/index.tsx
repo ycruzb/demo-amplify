@@ -97,13 +97,6 @@ const Page: NextPageWithLayout = () => {
 
   return (
     <>
-      {sending && <>
-        <h1 className='font-bold text-xl mb-8'>Loading...</h1>
-        <div className='mb-4 bg-gray-200 p-4 animate-pulse'>
-            <div className='w-1/2 h-4 font-bold bg-gray-300 mb-4'></div>
-            <div className='w-3/4 h-4 mb-2 bg-gray-300'></div>
-          </div>
-      </>}
       <div className='text-sm italic text-gray-500 mb-4'>* The filters work independently</div>
       <div className='mb-5'>
         <form onSubmit={handleFilterURL} className='flex gap-x-4'>
@@ -127,6 +120,13 @@ const Page: NextPageWithLayout = () => {
           {(categoryRef.current?.value) && <button type='button' onClick={handleClearFilterCategory} className='bg-gray-700 text-white text-sm px-4 py-1 rounded-2xl'>Clear</button>}
         </form>
       </div>
+      {sending && <>
+        <h1 className='font-bold text-xl mb-8'>Loading...</h1>
+        <div className='mb-4 bg-gray-200 p-4 animate-pulse'>
+            <div className='w-1/2 h-4 font-bold bg-gray-300 mb-4'></div>
+            <div className='w-3/4 h-4 mb-2 bg-gray-300'></div>
+          </div>
+      </>}
       {!sending && pages && pages.length === 0 && <p className='text-center'>No pages found</p>}
       {!sending && pages && pages.length > 0 && (
         <>
